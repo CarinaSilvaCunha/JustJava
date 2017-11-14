@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item type="id" name="quantity"/>
+    <item type="id" name="quantity_text_view"/>
+    <item type="id" name="order_button"/>
+
+</resources>
