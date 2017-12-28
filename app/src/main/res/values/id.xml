@@ -6,6 +6,6 @@
     <item type="id" name="plus_button"/>
     <item type="id" name="minus_button"/>
     <item type="id" name="price"/>
-    <item type="id" name="price_text_view"/>
+    <item type="id" name="order_summary_text_view"/>
 
 </resources>
