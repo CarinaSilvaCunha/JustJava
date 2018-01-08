@@ -5,6 +5,18 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@id/toppings"
+        style="@style/toppings"
+        android:text="@string/toppings" />
+
+
+    <CheckBox
+        android:id="@id/check_whipped_cream"
+        style="@style/check_whipped_cream"
+        android:text="@string/check_whipped_cream"/>
+
+
+    <TextView
         android:id="@id/quantity"
         style="@style/quantity"
         android:text="@string/quantity" />
