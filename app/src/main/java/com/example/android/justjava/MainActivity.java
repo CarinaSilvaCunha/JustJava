@@ -27,8 +27,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-    }
 
+    }
 
 
     /**
@@ -41,22 +41,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     /**
      * This method is called when the order button is clicked.
      */
     public void submitOrder(View view) {
-        displayMessage(createOrderSummary());
-
+        CheckBox checkWhippedCream = findViewById(R.id.check_whipped_cream);
+        // define checkbox has checkWhippedCream, and connect it to the id given on the XML (check_whipped_cream)
+        boolean hasWhippedCream = checkWhippedCream.isChecked();
+        //define the variable @hasWhippedCream that is updated with the state of the checkWhippedCream CheckBox
+        //call displayMessage and pass along the state of the variable it needs to build the message
+        //Do the same for CheckBox Chocolate
+        CheckBox checkChocolate = findViewById(R.id.check_chocolate);
+        boolean hasChocolate = checkChocolate.isChecked();
+        // Display message when tapping on Submit Order button, 2 parameters need to be passed: hasWhippedCream and hasChocolate (boolean)
+        displayMessage(createOrderSummary(hasWhippedCream, hasChocolate));
     }
 
     /**
      * Create a summary of the order and add it as a text message in the
      */
-    private String createOrderSummary() {
+    // hasWhippedCream is the variable that is updated with the state of the CheckBox with the id (check_whipped_cream)
+    private String createOrderSummary(boolean hasWhippedCream, boolean hasChocolate) {
         String userName = "Tiago";
         int price = calculatePrice();
         return  "Name: " + userName + "\n" +
+                "Add whipped cream? " + hasWhippedCream + "\n" +
+                "Add Chocolate? " + hasChocolate + "\n" +
                 "Quantity: " + quantity + "\n" +
                 "Total: " + price + "€" + "\n" +
                 "Thank You!";
@@ -75,7 +85,6 @@ public class MainActivity extends AppCompatActivity {
     /**
      * This method is called when the minus button is clicked.
      */
-
     public void decrement (View view) {
         quantity = quantity - 1;
         displayQuantity(quantity);
@@ -100,6 +109,12 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+
+    /**
+     * This method is called to check if we added whipped cream.
+     */
+
 
 
 }

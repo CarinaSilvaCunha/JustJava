@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item type="id" name="toppings"/>
-    <item type="id" name="quantity"/>
-    <item type="id" name="check_whipped_cream"/>
-    <item type="id" name="quantity_text_view"/>
-    <item type="id" name="order_button"/>
-    <item type="id" name="plus_button"/>
-    <item type="id" name="minus_button"/>
-    <item type="id" name="price"/>
-    <item type="id" name="order_summary_text_view"/>
+    <item name="toppings" type="id" />
+    <item name="quantity" type="id" />
+    <item name="check_whipped_cream" type="id" />
+    <item name="check_chocolate" type="id" />
+    <item name="quantity_text_view" type="id" />
+    <item name="order_button" type="id" />
+    <item name="plus_button" type="id" />
+    <item name="minus_button" type="id" />
+    <item name="price" type="id" />
+    <item name="order_summary_text_view" type="id" />
 
 </resources>
