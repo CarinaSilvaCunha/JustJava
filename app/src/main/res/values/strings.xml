@@ -1,5 +1,8 @@
 <resources>
+    // App Name
     <string name="app_name">Just Java</string>
+    // App Resources
+    <string name="name_text_view">Name</string>
     <string name="toppings">Toppings</string>
     <string name="check_whipped_cream">Whipped cream</string>
     <string name="check_chocolate">Chocolate</string>
