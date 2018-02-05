@@ -57,15 +57,16 @@
 
         </LinearLayout>
 
-        <TextView
-            android:id="@id/price"
-            style="@style/price"
-            android:text="@string/price" />
+        <!--<TextView-->
+        <!--android:id="@id/price"-->
+        <!--style="@style/price"-->
+        <!--android:text="@string/price" />-->
 
-        <TextView
-            android:id="@id/order_summary_text_view"
-            style="@style/price_text_view"
-            android:text="@string/price_text_view" />
+        <!--<TextView-->
+        <!--android:id="@id/order_summary_text_view"-->
+        <!--style="@style/price_text_view"-->
+        <!--android:text="@string/price_text_view"-->
+        <!--/>-->
 
         <Button
             android:id="@id/order_button"

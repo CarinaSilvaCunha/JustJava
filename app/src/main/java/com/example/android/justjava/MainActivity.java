@@ -8,16 +8,16 @@
 
 package com.example.android.justjava;
 
-import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 /**
@@ -25,7 +25,10 @@ import android.widget.TextView;
  */
 public class MainActivity extends AppCompatActivity {
 
-    public int quantity = 0;
+    // Initializes the variable Quantity by a default value
+    // When changing this, change also the number on strings.xml -> quantity_text_view
+    public int quantity = 2;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +41,24 @@ public class MainActivity extends AppCompatActivity {
      */
 
     public void increment (View view) {
-        quantity = quantity + 1;
-        displayQuantity(quantity);
+        if (quantity < 100) {
+            quantity = quantity + 1;
+            displayQuantity(quantity);
+            return;
+        } else {
+            //Toast for incremental button. Shows message when trying to add more than 100 coffees
+            //String pointing to strings.xml, sorry_increment string
+            final Toast incrementToast = Toast.makeText(this, (R.string.sorry_increment), Toast.LENGTH_SHORT);
+            incrementToast.show();
+            // Added to make Toast be shorter and cancel last toast before adding a new one (if user presses many times)
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    incrementToast.cancel();
+                }
+            }, 1000);
+        }
     }
 
 
@@ -58,20 +77,41 @@ public class MainActivity extends AppCompatActivity {
         CheckBox checkChocolate = findViewById(R.id.check_chocolate);
         boolean hasChocolate = checkChocolate.isChecked();
         // Find Name entered in EditText to pass on the Order as a String
+        // If no name is given, userName is updated to Final Consumer
         EditText editTextName = findViewById(R.id.name_text_view);
         String userName = editTextName.getText().toString();
+        if (userName.matches("")) {
+            userName = "Final Consumer";
+        }
+        //calculate the price
+        calculatePrice(hasWhippedCream, hasChocolate);
 
-        // Display message when tapping on Submit Order button, 2 parameters need to be passed: hasWhippedCream and hasChocolate (boolean)
-        displayMessage(createOrderSummary(hasWhippedCream, hasChocolate, userName));
+//        // Replaced by Intent Email
+//        // Display message when tapping on Submit Order button, 2 parameters need to be passed: hasWhippedCream and hasChocolate (boolean)
+//       displayMessage(createOrderSummary(hasWhippedCream, hasChocolate, userName));
+
+        // Replaced message.
+        // Intent send e-mail with order
+        Intent email = new Intent(Intent.ACTION_SENDTO);
+        email.setData(Uri.parse("mailto:")); // only email apps should handle this
+        email.putExtra(Intent.EXTRA_EMAIL, new String[]{"aniracsilva@gmail.com"});
+        email.putExtra(Intent.EXTRA_SUBJECT, "JustJava order for " + userName);
+        email.putExtra(Intent.EXTRA_TEXT, createOrderSummary(hasWhippedCream, hasChocolate, userName));
+
+        if (email.resolveActivity(getPackageManager()) != null) {
+            startActivity(email);
+        }
+
+
     }
 
 
     /**
-     * Create a summary of the order and add it as a text message in the
+     * Create a summary of the order and add it as a text message in the app
      */
     // hasWhippedCream is the variable that is updated with the state of the CheckBox with the id (check_whipped_cream)
     private String createOrderSummary(boolean hasWhippedCream, boolean hasChocolate, String userName) {
-        int price = calculatePrice();
+        int price = calculatePrice(hasWhippedCream, hasChocolate);
         return  "Name: " + userName + "\n" +
                 "Add Whipped cream? " + (hasWhippedCream ? "Yes" : "No") + "\n" +
                 "Add Chocolate? " + (hasChocolate ? "Yes" : "No") + "\n" +
@@ -80,13 +120,22 @@ public class MainActivity extends AppCompatActivity {
                 "Thank You!";
     }
 
-
     /**
      * Calculates the price of the order.
      */
-    private int calculatePrice() {
+    private int calculatePrice(boolean hasWhippedCream, boolean hasChocolate) {
+        // Indicates the prices of cup
         int pricePerCup = 5;
-        return quantity * pricePerCup;
+
+        //if WhippedCream is selected, add the price of WhippedCream to the pricePerCup
+        if (hasWhippedCream) {
+            pricePerCup += 1;
+        }
+        //if Chocolate is selected, add the price of Chocolate to the pricePerCup
+        if (hasChocolate) {
+            pricePerCup += 2;
+        }
+        return (quantity * pricePerCup);
 
     }
 
@@ -95,8 +144,24 @@ public class MainActivity extends AppCompatActivity {
      * This method is called when the minus button is clicked.
      */
     public void decrement (View view) {
-        quantity = quantity - 1;
-        displayQuantity(quantity);
+        if (quantity >= 2) {
+            quantity = quantity - 1;
+            displayQuantity(quantity);
+            return;
+        } else {
+            //Toast for decremental button. Shows message when trying to add less than 1 coffee
+            //String pointing to strings.xml, sorry_decrement string
+            final Toast decrementToast = Toast.makeText(this, (R.string.sorry_decrement), Toast.LENGTH_SHORT);
+            decrementToast.show();
+            // Added to make Toast be shorter and cancel last toast before adding a new one (if user presses many times)
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    decrementToast.cancel();
+                }
+            }, 1000);
+        }
     }
 
 
@@ -108,16 +173,14 @@ public class MainActivity extends AppCompatActivity {
         quantityTextView.setText("" + displayQuantity);
     }
 
-
-    /**
-     * This method displays the given text on the screen.
-     */
-    private void displayMessage(String message) {
-        TextView orderSummaryTextView = findViewById(R.id.order_summary_text_view);
-        orderSummaryTextView.setText(message);
-
-
-    }
+//     Replaced by intent to send email
+//    /**
+//     * This method displays the given text on the screen.
+//     */
+//    private void displayMessage(String message) {
+//        TextView orderSummaryTextView = findViewById(R.id.order_summary_text_view);
+//        orderSummaryTextView.setText(message);
+//    }
 }
 
 
